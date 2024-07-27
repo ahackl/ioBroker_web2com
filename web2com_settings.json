@@ -1,0 +1,466 @@
+[
+    {
+        "id": "6ed96c13c286a876",
+        "type": "tab",
+        "label": "web2com settings",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2c522fe8321c71c7",
+        "type": "ioBroker in",
+        "z": "6ed96c13c286a876",
+        "name": "Example state",
+        "attrname": "payload",
+        "topic": "0_userdata.0.example_state",
+        "payloadType": "value",
+        "onlyack": "",
+        "func": "all",
+        "gap": "",
+        "fireOnStart": "false",
+        "outFormat": "MQTT",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "3ca1bda57db88156"
+            ]
+        ]
+    },
+    {
+        "id": "765b587ab118396d",
+        "type": "function",
+        "z": "6ed96c13c286a876",
+        "name": "SOAP XML (write)",
+        "func": "msg.commandName = msg.payload.commandName;\nmsg.commandId = msg.payload.commandId;\nmsg.commandValue = msg.payload.commandValue;\n\nmsg.headers = {};\nmsg.headers = {\n    'Content-Type': 'text/xml'\n};\n\nmsg.payload = '';\nmsg.payload += '<?xml version=\"1.0\" encoding=\"UTF-8\"?>';\nmsg.payload += '<SOAP-ENV:Envelope';\nmsg.payload += ' xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"';\nmsg.payload += ' xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\"';\nmsg.payload += ' xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"';\nmsg.payload += ' xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"';\nmsg.payload += ' xmlns:ns=\"http://ws01.lom.ch/soap/\">';\nmsg.payload += '<SOAP-ENV:Body>';\nmsg.payload += '<ns:writeDpRequest>';\nmsg.payload += '<ref>';\nmsg.payload += '<oid>' + msg.commandId + '</oid>';\nmsg.payload += '<prop/>';\nmsg.payload += '</ref>';\nmsg.payload += '<dp>';\nmsg.payload += '<index>0</index>';\nmsg.payload += '<name/>';\nmsg.payload += '<prop/>';\nmsg.payload += '<desc/>';\nmsg.payload += '<value>' + msg.commandValue + '</value>';\nmsg.payload += '<unit/>';\nmsg.payload += '<timestamp>0</timestamp>';\nmsg.payload += '</dp>';\nmsg.payload += '</ns:writeDpRequest>';\nmsg.payload += '</SOAP-ENV:Body>';\nmsg.payload += '</SOAP-ENV:Envelope>';\n\nreturn msg",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 160,
+        "wires": [
+            [
+                "e26548d39196cb0b"
+            ]
+        ]
+    },
+    {
+        "id": "3ca1bda57db88156",
+        "type": "function",
+        "z": "6ed96c13c286a876",
+        "name": "Example paramter 2",
+        "func": "var outputMsg = {\n    \"commandName\": \"web2com/Example_paramter_2\",\n    \"commandId\": \"/1/2/4/99/0\",\n    \"commandValue\": msg.payload\n};\nmsg = { payload: outputMsg }\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 160,
+        "wires": [
+            [
+                "c1af6fb6960a7b3a"
+            ]
+        ]
+    },
+    {
+        "id": "e26548d39196cb0b",
+        "type": "http request",
+        "z": "6ed96c13c286a876",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.188.50/ws",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "digest",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 220,
+        "wires": [
+            [
+                "784d3f5cbf5c095c"
+            ]
+        ]
+    },
+    {
+        "id": "c1af6fb6960a7b3a",
+        "type": "delay",
+        "z": "6ed96c13c286a876",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "5",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 100,
+        "wires": [
+            [
+                "765b587ab118396d"
+            ]
+        ]
+    },
+    {
+        "id": "49ef1fce4cf595eb",
+        "type": "ioBroker in",
+        "z": "6ed96c13c286a876",
+        "name": "Example state",
+        "attrname": "payload",
+        "topic": "0_userdata.0.example_state",
+        "payloadType": "value",
+        "onlyack": "",
+        "func": "all",
+        "gap": "",
+        "fireOnStart": "false",
+        "outFormat": "MQTT",
+        "x": 130,
+        "y": 220,
+        "wires": [
+            [
+                "152da24f0c23a9a8"
+            ]
+        ]
+    },
+    {
+        "id": "152da24f0c23a9a8",
+        "type": "function",
+        "z": "6ed96c13c286a876",
+        "name": "Example paramter 3",
+        "func": "var outputMsg = {\n    \"commandName\": \"web2com/Example_paramter_3\",\n    \"commandId\": \"/1/2/4/99/0\",\n    \"commandValue\": msg.payload\n};\nmsg = { payload: outputMsg }\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 220,
+        "wires": [
+            [
+                "c1af6fb6960a7b3a"
+            ]
+        ]
+    },
+    {
+        "id": "1a6c61dc65f6aca9",
+        "type": "ioBroker in",
+        "z": "6ed96c13c286a876",
+        "name": "Example state",
+        "attrname": "payload",
+        "topic": "0_userdata.0.example_state",
+        "payloadType": "value",
+        "onlyack": "",
+        "func": "all",
+        "gap": "",
+        "fireOnStart": "false",
+        "outFormat": "MQTT",
+        "x": 130,
+        "y": 100,
+        "wires": [
+            [
+                "5861f4d68ea624fd"
+            ]
+        ]
+    },
+    {
+        "id": "5861f4d68ea624fd",
+        "type": "function",
+        "z": "6ed96c13c286a876",
+        "name": "Example paramter 1",
+        "func": "var outputMsg = {\n    \"commandName\": \"web2com/Example_paramter_1\",\n    \"commandId\": \"/1/2/4/99/0\",\n    \"commandValue\": msg.payload\n};\nmsg = { payload: outputMsg }\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 100,
+        "wires": [
+            [
+                "c1af6fb6960a7b3a"
+            ]
+        ]
+    },
+    {
+        "id": "dcb9a8c6d62e46c6",
+        "type": "function",
+        "z": "6ed96c13c286a876",
+        "name": "SOAP XML (read)",
+        "func": "msg.commandId = msg.commandId;\nmsg.commandName = msg.commandName;\n\nmsg.headers = {};\nmsg.headers = {\n    'Content-Type': 'text/xml'\n};\n\nmsg.payload = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>' + '\\n'\nmsg.payload += '<SOAP-ENV:Envelope' + '\\n'\nmsg.payload += 'xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"' + '\\n'\nmsg.payload += 'xmlns:SOAP-ENC=\"http://schemas.xmlsoap.org/soap/encoding/\"' + '\\n'\nmsg.payload += 'xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"' + '\\n'\nmsg.payload += 'xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"' + '\\n'\nmsg.payload += 'xmlns:ns=\"http://ws01.lom.ch/soap/\">' + '\\n'\nmsg.payload += '<SOAP-ENV:Body>' + '\\n'\nmsg.payload += '<ns:getDpRequest>' + '\\n'\nmsg.payload += '<ref>' + '\\n'\nmsg.payload += '<oid>' + msg.commandId + '</oid>' + '\\n'\nmsg.payload += '<prop/>' + '\\n'\nmsg.payload += '</ref>' + '\\n'\nmsg.payload += '<startIndex>0</startIndex>' + '\\n'\nmsg.payload += '<count>20</count>' + '\\n'\nmsg.payload += '</ns:getDpRequest>' + '\\n'\nmsg.payload += '</SOAP-ENV:Body>' + '\\n';\nmsg.payload += '</SOAP-ENV:Envelope>' + '\\n';\n\n\nreturn msg",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 340,
+        "wires": [
+            [
+                "fb2d15e78b58db64"
+            ]
+        ]
+    },
+    {
+        "id": "fb2d15e78b58db64",
+        "type": "http request",
+        "z": "6ed96c13c286a876",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.188.50/ws",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "digest",
+        "senderr": false,
+        "headers": [],
+        "x": 650,
+        "y": 400,
+        "wires": [
+            [
+                "55b3d5df7d1b8ba1"
+            ]
+        ]
+    },
+    {
+        "id": "55b3d5df7d1b8ba1",
+        "type": "xml",
+        "z": "6ed96c13c286a876",
+        "name": "",
+        "property": "payload",
+        "attr": "",
+        "chr": "",
+        "x": 650,
+        "y": 460,
+        "wires": [
+            [
+                "8023d0c769178f79"
+            ]
+        ]
+    },
+    {
+        "id": "8023d0c769178f79",
+        "type": "function",
+        "z": "6ed96c13c286a876",
+        "name": "Extract value",
+        "func": "var payload = msg.payload;\nvar commandName = msg.commandName;\n\nvar NewMsg = {};\nNewMsg.topic = commandName;\nNewMsg.payload = Number(payload[\"SOAP-ENV:Envelope\"][\"SOAP-ENV:Body\"][0][\"ns:getDpResponse\"][0].dpCfg[0].value[0]);\nreturn NewMsg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 520,
+        "wires": [
+            [
+                "a3b859cf4c55ffbc"
+            ]
+        ]
+    },
+    {
+        "id": "a3b859cf4c55ffbc",
+        "type": "ioBroker out",
+        "z": "6ed96c13c286a876",
+        "name": "Send to ioBroker",
+        "topic": "",
+        "ack": "true",
+        "autoCreate": "true",
+        "stateName": "",
+        "role": "",
+        "payloadType": "",
+        "readonly": "",
+        "stateUnit": "",
+        "stateMin": "",
+        "stateMax": "",
+        "x": 650,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "784d3f5cbf5c095c",
+        "type": "delay",
+        "z": "6ed96c13c286a876",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "1",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 660,
+        "y": 280,
+        "wires": [
+            [
+                "dcb9a8c6d62e46c6"
+            ]
+        ]
+    },
+    {
+        "id": "179f5ed3ad070e9f",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "limiter",
+        "info": "# limiter\nUse the limiter, to limit the number of request per seconds\nto avoid an overload of the web2com interface.",
+        "x": 870,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "62dfc543ead8d78d",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "SOAP XML",
+        "info": "# SOAP XML\nThe node embeds the ID into a SOAP XML for the web2com interface.",
+        "x": 880,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "f94255c90d94830f",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "http request",
+        "info": "# http request\nSend an HTTP request to the web2com interface.\nSet the IP number, username and password for local needs.\nDepending on the software revision of the web2com interface\nyou must adapt the authentication method.\nThis can be \"Basic\" or \"Digest\".",
+        "x": 890,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "282a18390aa5622a",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "xml",
+        "info": "# xml\nConvert the HTTP result in an XML structure.",
+        "x": 870,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "f6d97f3ad51d3847",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "Extract value",
+        "info": "# Extract value\nExtract the result value from the XML structure.",
+        "x": 890,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "5f8ddb1ad0537bb4",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "Send to ioBroker",
+        "info": "# Send to ioBroker\nSend the value back to the ioBorker.",
+        "x": 900,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "d1112d549bfc7f75",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "http request",
+        "info": "# http request\nSend an HTTP request to the web2com interface.\nSet the IP number, username and password for local needs.\nDepending on the software revision of the web2com interface\nyou must adapt the authentication method.\nThis can be \"Basic\" or \"Digest\".",
+        "x": 890,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "8651cd4d41e9f068",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "delay",
+        "info": "# delay\nAdd a short delay to give the web2com time to process the \nchange of the value before the state is read.\n",
+        "x": 870,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "af6e6175b7df0ae7",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "SOAP XML",
+        "info": "# SOAP XML\nThe node embeds the ID into a SOAP XML for the web2com interface.",
+        "x": 880,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e06128d2dd17768b",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "input state",
+        "info": "# input state\nDefine the input state, which holds the value for the web2com interface",
+        "x": 120,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "27ec8f9ebac4b118",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "web2com paramter",
+        "info": "# web2com paramter\nEach input state must be transfer to one singel wbb2com ID\nand to a ioBroker object name.\nThe ioBroker object name is defined with the \"commandName\"\nand the web2com ID with \"commandId\".\nBe sure  the web2com ID is writable.\nDo not use the same ioBroker state for input and output,\nthis can be leads to an end lees request loop in case of time delayed requests \nor errors with the web2com interface.\nAdd and remove paramters based on your needs.\n\n",
+        "x": 310,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "5f0ea7e9ebe28dfc",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "The user of this interface is responsible not to damage the heat pump with misleading parameters. ",
+        "info": "",
+        "x": 400,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "208c3323401e021a",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "Do not use the example state in a productive environment. This is only for demonstration.",
+        "info": "",
+        "x": 370,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "e2f3897732db037b",
+        "type": "comment",
+        "z": "6ed96c13c286a876",
+        "name": "Do not use the same ioBorker input state as output state",
+        "info": "",
+        "x": 270,
+        "y": 600,
+        "wires": []
+    }
+]
